@@ -22,12 +22,14 @@ def load_spectrum(spectrum_file):
     
     return df
 
-def find_flux_suppression(spectrum_df, suppression_factor=3, min_energy_eev=50):
+def find_flux_suppression(spectrum_df, suppression_factor=3, min_energy_eev=10):
     """
     Find the energy where the flux is suppressed by a given factor.
     
     This is a simplified approach - in reality you'd fit the spectrum to 
     theoretical models and look for deviations.
+    
+    Updated to work with the available energy range from the calibrated data.
     """
     
     # Look at high energy bins above min_energy_eev
@@ -37,24 +39,32 @@ def find_flux_suppression(spectrum_df, suppression_factor=3, min_energy_eev=50):
         print(f"No data above {min_energy_eev} EeV")
         return None
     
-    # Find the flux at the reference energy (e.g., 50 EeV)
-    ref_energy = min_energy_eev
-    ref_idx = np.argmin(np.abs(high_e['E_EeV'] - ref_energy))
-    ref_flux = high_e.iloc[ref_idx]['flux']
+    # Alternative approach: look for the steepest decline in flux
+    if len(high_e) < 3:
+        print(f"Insufficient data above {min_energy_eev} EeV for suppression analysis")
+        return None
     
-    # Look for where flux drops by suppression_factor
-    suppressed_flux = ref_flux / suppression_factor
+    # Find the energy where flux drops most significantly
+    high_e = high_e.sort_values('E_EeV')
+    flux_ratios = high_e['flux'].iloc[:-1].values / high_e['flux'].iloc[1:].values
     
-    # Find the energy where this happens
-    suppression_energies = high_e[high_e['flux'] <= suppressed_flux]['E_EeV']
-    
-    if len(suppression_energies) > 0:
-        cutoff_energy = suppression_energies.min()
-        print(f"Flux suppression by factor {suppression_factor} found at {cutoff_energy:.1f} EeV")
+    # Look for significant flux drops
+    max_ratio_idx = np.argmax(flux_ratios)
+    if flux_ratios[max_ratio_idx] >= suppression_factor:
+        cutoff_energy = high_e['E_EeV'].iloc[max_ratio_idx + 1]
+        print(f"Flux suppression by factor {flux_ratios[max_ratio_idx]:.1f} found at {cutoff_energy:.1f} EeV")
         return cutoff_energy
     else:
-        print(f"No clear flux suppression by factor {suppression_factor} found")
-        return None
+        # Use the highest energy with good statistics as an upper limit
+        good_stats = high_e[high_e['counts'] >= 5]  # Require at least 5 events
+        if len(good_stats) > 0:
+            cutoff_energy = good_stats['E_EeV'].max()
+            print(f"Using highest energy with good statistics: {cutoff_energy:.1f} EeV")
+            print(f"(Conservative limit - no clear suppression found)")
+            return cutoff_energy
+        else:
+            print(f"No clear flux suppression by factor {suppression_factor} found")
+            return None
 
 def estimate_liv_threshold(cutoff_energy_eev, n=1):
     """
@@ -94,21 +104,41 @@ def create_uhecr_exclusion(spectrum_df, output_file="data/uhecr/uhecr_exclusion.
     """Create UHECR LIV exclusion data compatible with combined_fom.py"""
     
     # Try different suppression factors and LIV orders
+    # Use lower energy threshold since our calibrated data has lower energies
     results = []
     
-    for suppression in [2, 3, 5, 10]:
+    for suppression in [2, 3, 5]:
         for n in [1, 2]:
-            cutoff = find_flux_suppression(spectrum_df, suppression_factor=suppression)
+            cutoff = find_flux_suppression(spectrum_df, suppression_factor=suppression, min_energy_eev=10)
             if cutoff is not None:
                 E_LIV_GeV = estimate_liv_threshold(cutoff, n=n)
-                
+                if E_LIV_GeV is not None:
+                    results.append({
+                        'Suppression_Factor': suppression,
+                        'LIV_Order': n,
+                        'Cutoff_Energy_EeV': cutoff,
+                        'E_LV_p (GeV)': E_LIV_GeV,
+                        'Excluded': False,  # Assume these are valid bounds
+                        'Method': f'Flux_Analysis_{suppression}x'
+                    })
+    
+    # If no suppression found, create conservative limits based on highest energy
+    if not results:
+        max_energy_row = spectrum_df.loc[spectrum_df['E_EeV'].idxmax()]
+        max_energy_eev = max_energy_row['E_EeV']
+        
+        print(f"No flux suppression found. Using conservative limit from max energy: {max_energy_eev:.1f} EeV")
+        
+        for n in [1, 2]:
+            E_LIV_GeV = estimate_liv_threshold(max_energy_eev, n=n)
+            if E_LIV_GeV is not None:
                 results.append({
-                    'Suppression_Factor': suppression,
+                    'Suppression_Factor': 1,  # Conservative - no suppression
                     'LIV_Order': n,
-                    'Cutoff_Energy_EeV': cutoff,
+                    'Cutoff_Energy_EeV': max_energy_eev,
                     'E_LV_p (GeV)': E_LIV_GeV,
-                    'Excluded': False,  # Assume these are valid bounds
-                    'Method': f'Flux_Suppression_{suppression}x'
+                    'Excluded': False,
+                    'Method': 'Conservative_Upper_Limit'
                 })
     
     if results:

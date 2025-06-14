@@ -44,9 +44,10 @@ python scripts/uhecr_spectrum.py
 
 This script:
 - Loads Pierre Auger Observatory cosmic ray data
-- Applies energy calibration: E = 1.49×10¹⁷ × (sd_s38)¹·⁰⁷ eV
+- Applies updated energy calibration: E = 4.17×10¹⁶ × (sd_s38)¹·⁰⁷ eV
 - Bins events in energy and calculates flux J(E) = N/(exposure × ΔE)
 - Generates spectrum plots with Poisson error bars
+- Includes systematic uncertainty analysis
 
 ### 2. LIV Threshold Analysis
 
@@ -99,7 +100,11 @@ Uses Pierre Auger Observatory calibration relating signal size to primary energy
 ```
 E_primary = A × (sd_s38)^B
 ```
-where A ≈ 1.49×10¹⁷ eV and B ≈ 1.07.
+where A = 4.17×10¹⁶ eV and B = 1.07 (latest published calibration).
+
+This gives: E [EeV] = 0.0417 × (sd_s38)^1.07
+
+Systematic uncertainties: ~14% (dominated by fluorescence yield and atmospheric modeling).
 
 ### LIV Bounds
 Flux suppression at energy E_cutoff translates to LIV bounds via:

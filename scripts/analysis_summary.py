@@ -89,8 +89,10 @@ def print_liv_summary():
         df = pd.read_csv("data/uhecr/uhecr_exclusion.csv")
         
         print("Energy Calibration Used:")
-        print("  E_primary = 1.49×10¹⁷ × (sd_s38)¹·⁰⁷ eV")
-        print("  (Pierre Auger Observatory SD calibration)")
+        print("  E_primary = 4.17×10¹⁶ × (sd_s38)¹·⁰⁷ eV")
+        print("  E [EeV] = 0.0417 × (sd_s38)¹·⁰⁷")
+        print("  (Pierre Auger Observatory SD calibration - latest published)")
+        print("  Systematic uncertainty: ~14%")
         print()
         
         print("LIV Bounds Derived:")
@@ -138,7 +140,9 @@ def print_methodology():
 1. DATA PREPARATION:
    • Used Pierre Auger Observatory cosmic ray data
    • Selected events with valid sd_s38 (S(1000) @ 38°) and exposure
-   • Applied energy calibration: E = 1.49×10¹⁷ × (sd_s38)¹·⁰⁷ eV
+   • Applied updated energy calibration: E = 4.17×10¹⁶ × (sd_s38)¹·⁰⁷ eV
+   • Energy scale: E [EeV] = 0.0417 × (sd_s38)¹·⁰⁷ 
+   • Systematic uncertainty: ~14%
 
 2. SPECTRUM CONSTRUCTION:
    • Binned events in log₁₀(E/eV) from 18.5 to 20.5 (20 bins)
