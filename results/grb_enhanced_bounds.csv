@@ -1,0 +1,3 @@
+GRB_file,E_LV_est_GeV,E_LV_lower95_GeV,best_model,aic,chi2_dof
+grb_sample1.csv,7.80123639788546e+18,7.796303230505869e+18,linear,N/A,N/A
+grb_sample2.csv,9.965703262549754e+18,9.95765939695734e+18,linear,N/A,N/A

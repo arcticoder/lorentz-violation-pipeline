@@ -96,7 +96,7 @@ def main():
     plt.savefig(PLOT_FILE, dpi=300, bbox_inches='tight')
     plt.close()
 
-    print(f"Spectrum: {n_bins} bins → {OUTPUT_CSV}")
+    print(f"Spectrum: {n_bins} bins -> {OUTPUT_CSV}")
     print(f"Plot: {PLOT_FILE}")
 
 if __name__ == "__main__":

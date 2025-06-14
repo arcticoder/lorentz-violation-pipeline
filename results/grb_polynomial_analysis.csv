@@ -1,0 +1,3 @@
+GRB,Best_Model,Chi2,AIC,Parameters,Energy_Scales
+grb_sample1,linear,6.898676618885433e-07,-126.7409417899373,[1.5623703],"{'E_LV_linear': 7.808648189958864e+18, 'E_LV_linear_error': 4436679592799849.0}"
+grb_sample2,linear,2.7547982744363296e-07,-135.0028102147978,[1.22380103],"{'E_LV_linear': 9.968940812221714e+18, 'E_LV_linear_error': 3516595525905942.0}"
