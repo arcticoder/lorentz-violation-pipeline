@@ -328,6 +328,100 @@ class VacuumInstabilityModel:
         
         return np.inf
 
+class HiddenSectorLIVModel:
+    """
+    Hidden sector energy leakage model for LIV analysis.
+    
+    Computes Γ_visible/Γ_total for polymer-QED coupled to:
+    - Dark photons (kinetic mixing)
+    - Axions (Primakoff effect)  
+    - Extra dimensions
+    
+    Tests observability against GRB and terrestrial measurements.
+    """
+    
+    def __init__(self, polymer_scale_GeV=1e16):
+        self.polymer_scale = polymer_scale_GeV
+    
+    def branching_ratio(self, photon_energy_GeV, epsilon=1e-3, g_axion=1e-10):
+        """
+        Calculate Γ_visible/Γ_total branching ratio.
+        
+        Parameters:
+        -----------
+        photon_energy_GeV : float
+            Photon energy in GeV
+        epsilon : float
+            Dark photon kinetic mixing
+        g_axion : float
+            Axion-photon coupling in GeV⁻¹
+            
+        Returns:
+        --------
+        visible_fraction : float
+            Fraction of energy remaining in visible sector
+        """
+        # Standard EM rate
+        gamma_em = ALPHA_EM * photon_energy_GeV
+        
+        # Hidden sector rates with polymer enhancement
+        x = photon_energy_GeV / self.polymer_scale
+        polymer_enhancement = 1 + 0.1 * x  # Linear enhancement
+        
+        # Dark photon mixing
+        gamma_dark = epsilon**2 * ALPHA_EM * photon_energy_GeV * polymer_enhancement
+        
+        # Axion conversion (assume B ~ 10⁻⁴ T)
+        B_field_natural = 1e-4 * 1.95e-20  # GeV²
+        gamma_axion = (g_axion**2 * B_field_natural * photon_energy_GeV * polymer_enhancement) / (16 * np.pi)
+        
+        # Total rates
+        gamma_total = gamma_em + gamma_dark + gamma_axion
+        
+        if gamma_total > 0:
+            visible_fraction = gamma_em / gamma_total
+        else:
+            visible_fraction = 1.0
+            
+        return visible_fraction
+    
+    def modified_dispersion_time_delay(self, E1_GeV, E2_GeV, distance_factor, epsilon=1e-3, g_axion=1e-10):
+        """
+        Calculate additional time delay from hidden sector interactions.
+        
+        This modifies the standard LIV dispersion relation:
+        Δt = D(z)[α₁(E/E_Pl) + hidden_sector_corrections]
+        """
+        # Visible fractions for two photon energies
+        f1 = self.branching_ratio(E1_GeV, epsilon, g_axion)
+        f2 = self.branching_ratio(E2_GeV, epsilon, g_axion)
+        
+        # Additional delay from hidden sector losses
+        # Δt_hidden ≈ (1-f₁) - (1-f₂) × distance_factor
+        additional_delay = (f2 - f1) * distance_factor
+        
+        return additional_delay
+    
+    def terrestrial_precision_test_prediction(self, test_energy_GeV, epsilon=1e-3, g_axion=1e-10):
+        """
+        Predict hidden sector effects in terrestrial precision tests.
+        
+        Returns effective coupling modification for torsion balance,
+        Casimir force, atomic spectroscopy, etc.
+        """
+        visible_fraction = self.branching_ratio(test_energy_GeV, epsilon, g_axion)
+        
+        # Effective coupling modification
+        coupling_modification = 1 - visible_fraction
+        
+        return {
+            'test_energy_GeV': test_energy_GeV,
+            'visible_fraction': visible_fraction,
+            'coupling_shift': coupling_modification,
+            'observable_ppm': coupling_modification * 1e6,  # parts per million
+            'polymer_scale_GeV': self.polymer_scale
+        }
+
 def create_theoretical_models():
     """Create a suite of theoretical LIV models for testing."""
     
@@ -341,6 +435,8 @@ def create_theoretical_models():
         'rainbow_linear': GravityRainbowDispersion(n=1, m=1, eta=1.0),
         'rainbow_quadratic': GravityRainbowDispersion(n=2, m=2, eta=1.0),
         'rainbow_asymmetric': GravityRainbowDispersion(n=1, m=2, eta=0.5),
+        
+        'hidden_sector': HiddenSectorLIVModel()
     }
     
     return models
@@ -420,6 +516,68 @@ def test_vacuum_instability():
         else:
             print(f"μ = {mu:.0e} GeV → No observable instability")
 
+def test_hidden_sector_constraints():
+    """Test hidden sector models against experimental constraints."""
+    print("\nTesting Hidden Sector LIV Models")
+    print("=" * 50)
+    
+    # Test different polymer scales
+    polymer_scales = [1e14, 1e16, 1e18]  # GeV
+    
+    print("Terrestrial Precision Test Predictions:")
+    print("-" * 60)
+    print("Polymer Scale | Test Energy | Hidden Loss | Observable (ppm)")
+    print("-" * 60)
+    
+    for mu in polymer_scales:
+        model = HiddenSectorLIVModel(mu)
+        
+        # Test at different energy scales
+        test_energies = {
+            'Torsion balance': 1e-6,     # GeV (meV scale)
+            'Casimir force': 1e-3,       # GeV (eV scale)
+            'Atomic spec': 1e-2,         # GeV (10 eV scale)
+            'Lab laser': 1.0             # GeV
+        }
+        
+        for test_name, E_test in test_energies.items():
+            result = model.terrestrial_precision_test_prediction(
+                E_test, 
+                epsilon=1e-3,  # Optimistic dark photon mixing
+                g_axion=1e-10   # Axion coupling
+            )
+            
+            observable = "Yes" if result['observable_ppm'] > 1.0 else "No"
+            
+            print(f"{mu:.0e}      | {test_name:12} | {1-result['visible_fraction']:.3e} | {result['observable_ppm']:7.1f} ({observable})")
+    
+    print("\nGRB Time Delay Predictions:")
+    print("-" * 60)
+    
+    # GRB analysis
+    grb_energies = [0.1, 1.0, 10.0]  # GeV
+    distance_factor = 1e17  # seconds
+    
+    print("Polymer Scale | E₁→E₂ (GeV) | Additional Delay (s) | Observable")
+    print("-" * 60)
+    
+    for mu in polymer_scales:
+        model = HiddenSectorLIVModel(mu)
+        
+        for i in range(len(grb_energies)-1):
+            E1, E2 = grb_energies[i], grb_energies[i+1]
+            
+            delay = model.modified_dispersion_time_delay(
+                E1, E2, distance_factor,
+                epsilon=1e-3, g_axion=1e-10
+            )
+            
+            observable = "Yes" if abs(delay) > 1e-3 else "No"  # ms precision
+            
+            print(f"{mu:.0e}      | {E1:.1f}→{E2:.1f}      | {delay:15.3e} | {observable}")
+
 if __name__ == "__main__":
     test_dispersion_models()
-    test_vacuum_instability()
+    test_vacuum_instability() 
+    test_hidden_sector_constraints()
+    test_hidden_sector_constraints()
