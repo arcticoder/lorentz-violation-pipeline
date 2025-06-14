@@ -1,0 +1,3 @@
+Suppression_Factor,LIV_Order,Cutoff_Energy_EeV,E_LV_p (GeV),Excluded,Method
+2,1,112.20184543019654,112201845430.19653,False,Flux_Suppression_2x
+2,2,112.20184543019654,36998142037.78884,False,Flux_Suppression_2x
