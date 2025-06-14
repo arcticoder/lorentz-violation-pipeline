@@ -263,6 +263,71 @@ class HiddenSectorInteraction:
         
         return LIGHT_SPEED * time_taken
 
+class VacuumInstabilityModel:
+    """
+    Schwinger-like pair production with polymer-QED corrections.
+    
+    Standard Schwinger rate: Γ = exp[-π m²/(eE)]
+    Polymer correction: Γ_poly = exp[-π m²/(eE) × f(μ,E)]
+    
+    Tests whether LIV modifications make vacuum breakdown observable
+    at laboratory field strengths.
+    """
+    
+    def __init__(self, polymer_scale=1e16):
+        """
+        Initialize vacuum instability model.
+        
+        Parameters:
+        -----------
+        polymer_scale : float
+            Polymer energy scale μ in GeV
+        """
+        self.polymer_scale = polymer_scale
+        self.electron_mass = 0.511e-3  # GeV
+        self.alpha_em = 1/137.036
+    
+    def schwinger_rate_standard(self, E_field_V_per_m):
+        """Standard Schwinger pair production rate."""
+        # Convert V/m to natural units (factor ≈ 5.1e15)
+        E_natural = E_field_V_per_m / 5.1e15  # GeV scale
+        
+        # Schwinger exponent: -π m²/(eE)
+        exponent = -np.pi * self.electron_mass**2 / (self.alpha_em * E_natural)
+        return exponent
+    
+    def polymer_correction_factor(self, E_field_V_per_m, model='linear'):
+        """Polymer-QED correction factor f(μ,E)."""
+        E_natural = E_field_V_per_m / 5.1e15
+        x = E_natural / self.polymer_scale
+        
+        if model == 'linear':
+            return 1 + 0.1 * x  # Linear correction
+        elif model == 'quadratic':
+            return 1 + 0.1 * x + 0.01 * x**2  # Quadratic
+        elif model == 'exponential':
+            return np.exp(-x)  # Exponential suppression
+        else:
+            return 1.0
+    
+    def schwinger_rate_polymer(self, E_field_V_per_m, model='linear'):
+        """Polymer-modified Schwinger rate."""
+        gamma_std = self.schwinger_rate_standard(E_field_V_per_m)
+        f_factor = self.polymer_correction_factor(E_field_V_per_m, model)
+        return gamma_std * f_factor
+    
+    def find_critical_field(self, threshold=-50, model='linear'):
+        """Find field strength where rate exceeds threshold."""
+        # Scan field strengths
+        E_fields = np.logspace(10, 18, 1000)  # 10¹⁰ to 10¹⁸ V/m
+        
+        for E in E_fields:
+            rate = self.schwinger_rate_polymer(E, model)
+            if rate > threshold:
+                return E
+        
+        return np.inf
+
 def create_theoretical_models():
     """Create a suite of theoretical LIV models for testing."""
     
@@ -311,5 +376,50 @@ def test_dispersion_models():
         if any(v > 1.0 for v in velocities):
             print(f"  WARNING: Superluminal propagation detected!")
 
+def test_vacuum_instability():
+    """Test vacuum instability with polymer-QED corrections."""
+    print("\nTesting Vacuum Instability with Polymer-QED")
+    print("=" * 50)
+    
+    # Test different polymer scales
+    polymer_scales = [1e12, 1e15, 1e16, 1e17, 1e18]  # GeV
+    field_strengths = [1e13, 1e15, 1.3e16, 1e17]     # V/m (lab, extreme, Schwinger, cosmic)
+    
+    print("Field Strength Analysis:")
+    print("Polymer Scale (GeV) | Lab (1e13) | Extreme (1e15) | Schwinger (1.3e16) | Cosmic (1e17)")
+    print("-" * 90)
+    
+    for mu in polymer_scales:
+        model = VacuumInstabilityModel(mu)
+        row_data = [f"{mu:.0e}"]
+        
+        for E_field in field_strengths:
+            gamma_std = model.schwinger_rate_standard(E_field)
+            gamma_poly = model.schwinger_rate_polymer(E_field, 'linear')
+            enhancement = gamma_poly / gamma_std if gamma_std != 0 else 1.0
+            
+            # Mark if observable (rate > -50)
+            observable = "✓" if gamma_poly > -50 else " "
+            row_data.append(f"{enhancement:.2f}{observable}")
+        
+        print(" | ".join(f"{item:>13}" for item in row_data))
+    
+    print("\n✓ = Observable rate (exp(γ) > exp(-50))")
+    
+    # Find most promising cases
+    print(f"\nCritical Field Analysis:")
+    print("-" * 30)
+    
+    for mu in [1e15, 1e16, 1e17]:
+        model = VacuumInstabilityModel(mu)
+        E_crit = model.find_critical_field(threshold=-50, model='linear')
+        
+        if E_crit < np.inf:
+            feasibility = "Laboratory" if E_crit < 1e15 else "Astrophysical" if E_crit < 1e17 else "Extreme"
+            print(f"μ = {mu:.0e} GeV → E_crit = {E_crit:.2e} V/m ({feasibility})")
+        else:
+            print(f"μ = {mu:.0e} GeV → No observable instability")
+
 if __name__ == "__main__":
     test_dispersion_models()
+    test_vacuum_instability()
