@@ -1,0 +1,23 @@
+UHECR SPECTRUM ANALYSIS REPORT
+Dataset: SD1500
+Generated: 2025-06-13 21:16:14.312182
+============================================================
+
+DATA SUMMARY
+------------------------------
+Total events: 21,591
+Total exposure: 6.61e+07 km² sr year
+Energy range: 0.62 - 41.6 EeV
+sd_s38 range: 12.5 - 635.4
+Mean sd_s38: 24.2 ± 22.4
+
+ENERGY CALIBRATION
+------------------------------
+Formula: E [eV] = 4.17e+16 × (sd_s38)^1.07
+Formula: E [EeV] = 0.0417 × (sd_s38)^1.07
+Reference: Latest Auger SD calibration (2020-2024)
+
+SPECTRUM SUMMARY
+------------------------------
+Total energy bins: 25
+Bins with events: 19
