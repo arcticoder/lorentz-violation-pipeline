@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../lqg-anec-framework"
+		},
+		{
+			"path": "../unified-gut-polymerization"
+		},
+		{
+			"path": "../unified-lqg-qft"
+		}
+	],
+	"settings": {}
+}
