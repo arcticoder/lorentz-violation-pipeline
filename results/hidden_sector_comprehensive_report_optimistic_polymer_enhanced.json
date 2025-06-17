@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-06-15T22:49:01.338867",
+  "timestamp": "2025-06-16T05:47:15.479246",
   "framework": "polymer_enhanced",
   "scenario": "optimistic",
   "parameters": {
@@ -22,7 +22,8 @@
       "enhancement_factors": {
         "dark_energy": 1.0000000003162276e-29,
         "axion_background": 1.5008737500000008e-144,
-        "vacuum_instability": 0.0
+        "vacuum_instability": 0.0,
+        "gut_enhancement": 6.5
       }
     }
   },
@@ -57,17 +58,17 @@
       },
       {
         "signature": "pair_production_enhancement",
-        "predicted_value": 4.846153846301775,
+        "predicted_value": 4.846153846168639,
         "current_sensitivity": 1.0,
-        "detectability": 4.846153846301775,
+        "detectability": 4.846153846168639,
         "experiment_type": "Vacuum Modification",
         "priority": "MEDIUM"
       },
       {
         "signature": "casimir_modification_w",
-        "predicted_value": 9.003338464469196e+49,
+        "predicted_value": 9.003338464469192e+51,
         "current_sensitivity": 1e-18,
-        "detectability": 9.003338464469195e+67,
+        "detectability": 9.003338464469191e+69,
         "experiment_type": "Vacuum Modification",
         "priority": "MEDIUM"
       },
@@ -97,7 +98,7 @@
       "axion_background": 4.746179530358147e-154,
       "vacuum_instability": 0.0,
       "hidden_sector_resonant": 9.999990000010001e-11,
-      "casimir_extraction": 9.903672310916115e+50,
+      "casimir_extraction": 9.90367231091611e+52,
       "quantum_inequality": 2.019551369337037e+103
     },
     "e_mc2_comparison": {

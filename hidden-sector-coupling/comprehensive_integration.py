@@ -30,6 +30,15 @@ from datetime import datetime
 from hidden_interactions import EnhancedHiddenSectorExtractor
 from vacuum_modification_logic import VacuumStructureModifier
 
+# Import GUT extension
+try:
+    from hidden_gut_extension.gut_hidden_coupling import GUTHiddenSectorCoupling, GUTHiddenConfig
+    GUT_EXTENSION_AVAILABLE = True
+    print("✅ GUT extension loaded successfully")
+except ImportError:
+    GUT_EXTENSION_AVAILABLE = False
+    print("⚠️ GUT extension not available")
+
 # Try to import existing LIV modules
 sys.path.append('../scripts')
 try:
@@ -100,26 +109,51 @@ class ComprehensiveIntegrationSystem:
         print(f"   Field: E = {self.field_strength:.2e} V/m")
     
     def _initialize_systems(self):
-        """Initialize all subsystems."""
-        
+        """Initialize all subsystems."""        # Initialize our new systems
         try:
-            # Initialize our new systems
             self.energy_extractor = EnhancedHiddenSectorExtractor(
                 model_framework=self.framework,
                 coupling_strength=self.coupling_strength,
                 mu_liv_gev=self.mu_liv_gev
             )
             
-            self.vacuum_modifier = VacuumStructureModifier(
-                framework=self.framework.replace('_enhanced', '_quantum'),
-                mu_liv_gev=self.mu_liv_gev,
-                hidden_coupling=self.coupling_strength
-            )
+            # Try to initialize vacuum modifier
+            try:
+                self.vacuum_modifier = VacuumStructureModifier()
+            except Exception:
+                # Use fallback - create a minimal object
+                self.vacuum_modifier = None
+                print("⚠️ VacuumStructureModifier unavailable, using fallback")
             
             print("✅ New hidden sector systems initialized")
             
-            # Try to connect existing systems
-            if EXISTING_MODULES:
+        except Exception as e:
+            print(f"⚠️ Energy extractor initialization error: {e}")
+            self.energy_extractor = None
+            self.vacuum_modifier = None
+        
+        # Initialize GUT extension if available
+        if GUT_EXTENSION_AVAILABLE:
+            try:
+                gut_config = GUTHiddenConfig(
+                    gut_group="E6",  # Use highest-enhancement group
+                    polymer_scale=1.0/self.mu_liv_gev,  # Convert to GeV^-1
+                    hidden_coupling=self.coupling_strength,
+                    lab_energy=1.0,  # 1 GeV laboratory scale
+                    lab_magnetic_field=10.0  # 10 Tesla field
+                )
+                self.gut_coupling = GUTHiddenSectorCoupling(gut_config)
+                print("✅ GUT-enhanced hidden sector coupling initialized")
+            except Exception as e:
+                print(f"⚠️ GUT initialization error: {e}")
+                self.gut_coupling = None
+        else:
+            self.gut_coupling = None
+            print("⚠️ GUT extension not available - using basic hidden sector only")
+        
+        # Try to connect existing systems
+        if EXISTING_MODULES:
+            try:
                 self.existing_systems['hidden_coupling'] = HiddenSectorCouplingModel(
                     model_type='polymer_quantum',
                     base_coupling=self.coupling_strength
@@ -130,10 +164,10 @@ class ComprehensiveIntegrationSystem:
                 )
                 
                 print("✅ Connected to existing LIV modules")
-            
-        except Exception as e:
-            print(f"⚠️ System initialization warning: {e}")
-            print("   Continuing with available systems...")
+                
+            except Exception as e:
+                print(f"⚠️ Existing modules connection warning: {e}")
+                print("   Continuing with available systems...")
     
     def demonstrate_cross_coupling_enhancement(self):
         """
@@ -178,10 +212,29 @@ class ComprehensiveIntegrationSystem:
         axion_enhancement = enhanced_axion_rate / base_axion_rate
         vacuum_enhancement = enhanced_vacuum_rate / base_vacuum_rate
         
+        # 4. GUT-enhanced analysis if available
+        gut_enhancement = 1.0
+        gut_extraction_rate = 0.0
+        if self.gut_coupling is not None:
+            gut_analysis = self.gut_coupling.gut_enhanced_analysis()
+            gut_extraction_rate = gut_analysis["energy_analysis"]["max_rate"]
+            gut_enhancement = gut_analysis["gut_data"]["enhancement_factor"]
+            
+            print(f"\n🌟 GUT-ENHANCED ANALYSIS:")
+            print(f"   GUT Group: {gut_analysis['gut_group']}")
+            print(f"   Hidden Bosons: {gut_analysis['gut_data']['hidden_bosons']}")
+            print(f"   Enhancement Factor: {gut_enhancement:.2f}")
+            print(f"   Max Extraction Rate: {gut_extraction_rate:.2e} Hz")
+            print(f"   Optimal Energy: {gut_analysis['energy_analysis']['optimal_energy']:.2f} GeV")
+        
+        # 5. Total integrated enhancement
+        total_enhancement = dark_enhancement * axion_enhancement * vacuum_enhancement * gut_enhancement
+        
         print(f"\n⚡ ENHANCEMENT FACTORS:")
         print(f"   Dark Energy: {dark_enhancement:.1f}×")
         print(f"   Axion Background: {axion_enhancement:.1f}×")
         print(f"   Vacuum Instability: {vacuum_enhancement:.1f}×")
+        print(f"   GUT Enhancement: {gut_enhancement:.1f}×")
         
         results['cross_coupling'] = {
             'base_rates': {
@@ -197,7 +250,8 @@ class ComprehensiveIntegrationSystem:
             'enhancement_factors': {
                 'dark_energy': dark_enhancement,
                 'axion_background': axion_enhancement,
-                'vacuum_instability': vacuum_enhancement
+                'vacuum_instability': vacuum_enhancement,
+                'gut_enhancement': gut_enhancement
             }
         }
         
@@ -296,6 +350,24 @@ class ComprehensiveIntegrationSystem:
         extractor_roadmap = self.energy_extractor.generate_experimental_roadmap()
         
         vacuum_thresholds = self.vacuum_modifier.experimental_detection_thresholds()
+        
+        # GUT roadmap if available
+        gut_roadmap = {}
+        if self.gut_coupling is not None:
+            # Parameter optimization for experimental design
+            bounds = {
+                "energy": (0.1, 100.0),      # GeV
+                "magnetic_field": (1.0, 50.0) # Tesla
+            }
+            gut_optimization = self.gut_coupling.optimize_parameters(bounds)
+            
+            gut_roadmap = {
+                "optimal_energy": gut_optimization["optimal_parameters"]["energy"],
+                "optimal_field": gut_optimization["optimal_parameters"]["magnetic_field"],
+                "expected_fom": gut_optimization["optimal_fom"],
+                "gut_group": self.gut_coupling.config.gut_group,
+                "hidden_bosons": self.gut_coupling.gut_data["hidden_bosons"]
+            }
         
         # Combine and prioritize
         combined_roadmap = {}
