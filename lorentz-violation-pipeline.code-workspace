@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "../unified-lqg-qft"
+		},
+		{
+			"path": "../warp-bubble-qft"
 		}
 	],
 	"settings": {}
