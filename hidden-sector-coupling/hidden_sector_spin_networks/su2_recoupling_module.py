@@ -451,15 +451,203 @@ class SpinNetworkPortal:
                                  width=j/2,
                                  alpha=0.7)
         
-        # Add labels
-        nx.draw_networkx_labels(self.network, pos)
+        # Add labels        nx.draw_networkx_labels(self.network, pos)
         
         plt.title("Spin Network Portal Topology")
         plt.axis('off')
-        
         if save_path:
             plt.savefig(save_path, dpi=300, bbox_inches='tight')
         plt.show()
+
+@dataclass 
+class LorentzViolationConfig:
+    """Configuration for Lorentz-violating parameters from warp-bubble QFT."""
+    mu: float = 0.0  # Polymer discretization parameter
+    alpha: float = 0.0  # Einstein tensor coupling  
+    beta: float = 0.0  # Ricci tensor coupling
+    experimental_bounds: Dict[str, float] = None
+    
+    def __post_init__(self):
+        if self.experimental_bounds is None:
+            self.experimental_bounds = {
+                'mu': 1e-20,      # Polymer bound from LQG constraints
+                'alpha': 1e-15,   # Ghost scalar coupling bound
+                'beta': 1e-15     # Curvature coupling bound  
+            }
+    
+    def pathways_active(self) -> List[str]:
+        """Determine which exotic pathways are active based on LV parameter values."""
+        active = []
+        
+        if self.mu > self.experimental_bounds['mu']:
+            active.extend(['negative_energy', 'extra_dimensional', 'coherent_vacuum'])
+            
+        if (self.alpha > self.experimental_bounds['alpha'] or 
+            self.beta > self.experimental_bounds['beta']):
+            active.extend(['vacuum_harvesting', 'kinetic_suppression'])
+            
+        return active
+    
+    def lv_enhancement_factor(self) -> float:
+        """Compute overall LV enhancement factor for portal coupling."""
+        mu_factor = 1.0 if self.mu <= self.experimental_bounds['mu'] else (
+            self.mu / self.experimental_bounds['mu']
+        )
+        
+        alpha_factor = 1.0 if self.alpha <= self.experimental_bounds['alpha'] else (
+            self.alpha / self.experimental_bounds['alpha'] 
+        )
+        
+        beta_factor = 1.0 if self.beta <= self.experimental_bounds['beta'] else (
+            self.beta / self.experimental_bounds['beta']
+        )
+        
+        # Synergistic enhancement when multiple pathways active
+        return mu_factor * alpha_factor * beta_factor
+
+class EnhancedSpinNetworkPortal(SpinNetworkPortal):
+    """Spin network portal enhanced with Lorentz violation capabilities."""
+    
+    def __init__(self, config: SpinNetworkConfig, lv_config: LorentzViolationConfig = None):
+        """
+        Initialize enhanced portal with LV capabilities.
+        
+        Parameters:
+        -----------
+        config : SpinNetworkConfig
+            Basic spin network configuration
+        lv_config : LorentzViolationConfig, optional
+            Lorentz violation parameters. If None, uses default (no LV).
+        """
+        super().__init__(config)
+        self.lv_config = lv_config or LorentzViolationConfig()
+        
+    def effective_coupling_lv(self, vertex: int) -> float:
+        """Compute LV-enhanced effective coupling at a vertex."""
+        base_coupling = self.effective_coupling(vertex)
+        lv_enhancement = self.lv_config.lv_enhancement_factor()
+        
+        # Additional pathway-specific enhancements
+        pathways = self.lv_config.pathways_active()
+        pathway_boost = 1.0
+        
+        if 'negative_energy' in pathways:
+            # ANEC violation enhances coupling strength
+            pathway_boost *= (1 + abs(self.lv_config.mu) * 1e18)
+            
+        if 'vacuum_harvesting' in pathways:
+            # Ghost scalar provides additional channels
+            pathway_boost *= (1 + self.lv_config.alpha * 1e13 + self.lv_config.beta * 1e13)
+            
+        return base_coupling * lv_enhancement * pathway_boost
+    
+    def energy_leakage_amplitude_lv(self, E_initial: float, E_final: float) -> complex:
+        """Compute LV-enhanced energy leakage amplitude."""
+        base_amplitude = self.energy_leakage_amplitude(E_initial, E_final)
+        
+        pathways = self.lv_config.pathways_active()
+        lv_amplitude = 0.0
+        
+        # Contribution from each active pathway
+        if 'negative_energy' in pathways:
+            # Direct negative energy extraction
+            neg_energy_amp = self.lv_config.mu * (E_initial - E_final) * 1e15
+            lv_amplitude += neg_energy_amp * np.exp(1j * np.pi/4)
+            
+        if 'vacuum_harvesting' in pathways:
+            # Ghost scalar mediated extraction
+            ghost_amp = (self.lv_config.alpha + self.lv_config.beta) * np.sqrt(E_initial * E_final) * 1e12
+            lv_amplitude += ghost_amp * np.exp(1j * np.pi/3)
+            
+        if 'extra_dimensional' in pathways:
+            # Extra-dimensional polymer channels
+            polymer_amp = self.lv_config.mu * np.log(E_initial/E_final) * 1e14
+            lv_amplitude += polymer_amp * np.exp(1j * np.pi/6)
+            
+        if 'coherent_vacuum' in pathways:
+            # Modified quantum inequality effects
+            sinc_factor = np.sinc(np.pi * self.lv_config.mu * 1e20)
+            coherent_amp = (1.0 / sinc_factor - 1.0) * np.sqrt(E_initial) * 1e10
+            lv_amplitude += coherent_amp * np.exp(1j * np.pi/2)
+            
+        if 'kinetic_suppression' in pathways:
+            # Reduced kinetic energy costs
+            suppression_factor = 1.0 / (1 + (self.lv_config.alpha + self.lv_config.beta) * 1e15)
+            kinetic_amp = base_amplitude * (1 - suppression_factor)
+            lv_amplitude += kinetic_amp
+        
+        return base_amplitude + lv_amplitude
+    
+    def exotic_pathway_summary(self) -> Dict[str, float]:
+        """Generate summary of exotic pathway activations and strengths."""
+        pathways = self.lv_config.pathways_active()
+        
+        summary = {
+            'active_pathways': pathways,
+            'total_enhancement': self.lv_config.lv_enhancement_factor(),
+            'pathway_count': len(pathways)
+        }
+        
+        # Individual pathway strengths
+        if 'negative_energy' in pathways:
+            summary['negative_energy_strength'] = self.lv_config.mu / self.lv_config.experimental_bounds['mu']
+            
+        if 'vacuum_harvesting' in pathways:
+            summary['vacuum_harvest_strength'] = max(
+                self.lv_config.alpha / self.lv_config.experimental_bounds['alpha'],
+                self.lv_config.beta / self.lv_config.experimental_bounds['beta']
+            )
+            
+        return summary
+
+def demo_lorentz_violation():
+    """Demonstrate Lorentz violation enhanced portal capabilities."""
+    print("=== Lorentz Violation Enhanced Portal Demo ===")
+    
+    # Standard configuration
+    config = SpinNetworkConfig(
+        base_coupling=1e-6,
+        geometric_suppression=0.1,
+        network_size=8
+    )
+    
+    # LV configuration with parameters beyond bounds
+    lv_config = LorentzViolationConfig(
+        mu=1e-18,      # 100x beyond bound
+        alpha=1e-13,   # 100x beyond bound  
+        beta=5e-14,    # 50x beyond bound
+    )
+    
+    # Create enhanced portal
+    enhanced_portal = EnhancedSpinNetworkPortal(config, lv_config)
+    
+    print(f"Active pathways: {lv_config.pathways_active()}")
+    print(f"LV enhancement factor: {lv_config.lv_enhancement_factor():.2e}")
+    
+    # Compare standard vs LV-enhanced coupling
+    vertex = 0
+    standard_coupling = enhanced_portal.effective_coupling(vertex)
+    lv_coupling = enhanced_portal.effective_coupling_lv(vertex)
+    
+    print(f"\nCoupling at vertex {vertex}:")
+    print(f"  Standard: {standard_coupling:.2e}")
+    print(f"  LV-enhanced: {lv_coupling:.2e}")
+    print(f"  Enhancement ratio: {lv_coupling/standard_coupling:.2e}")
+    
+    # Compare energy leakage amplitudes
+    standard_amp = enhanced_portal.energy_leakage_amplitude(10.0, 8.0)
+    lv_amp = enhanced_portal.energy_leakage_amplitude_lv(10.0, 8.0)
+    
+    print(f"\nEnergy leakage amplitude (10→8):")
+    print(f"  Standard: {abs(standard_amp):.2e}")
+    print(f"  LV-enhanced: {abs(lv_amp):.2e}")
+    print(f"  Enhancement ratio: {abs(lv_amp)/abs(standard_amp):.2e}")
+    
+    # Pathway summary
+    summary = enhanced_portal.exotic_pathway_summary()
+    print(f"\nExotic pathway summary:")
+    for key, value in summary.items():
+        print(f"  {key}: {value}")
 
 def demo_su2_recoupling():
     """Demonstration of SU(2) recoupling calculations."""
@@ -531,3 +719,4 @@ def demo_energy_transfer():
 if __name__ == "__main__":
     demo_su2_recoupling()
     demo_energy_transfer()
+    demo_lorentz_violation()
