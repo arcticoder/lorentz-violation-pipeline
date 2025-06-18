@@ -40,6 +40,8 @@ from .higher_dimension_operators import HigherDimensionLVFramework
 from .dynamic_vacuum_extraction import DynamicVacuumExtractor, DynamicVacuumConfig
 from .negative_energy_cavity import MacroscopicNegativeEnergyCavity, NegativeEnergyCavityConfig
 from .enhanced_hidden_portals import EnhancedHiddenPortals
+from .spallation_transmutation import SpallationTransmuter, SpallationConfig
+from .decay_accelerator import DecayAccelerator, DecayConfig
 
 @dataclass
 class SystemConfiguration:
