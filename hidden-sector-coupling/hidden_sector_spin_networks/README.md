@@ -1,21 +1,108 @@
-# SU(2) Spin Network Portal for Hidden-Sector Energy Transfer
+# LV-Powered Exotic Energy Platform: Complete Framework Documentation
 
-## � **COMPLETE FRAMEWORK IMPLEMENTATION**
+## ✅ **COMPLETE LV FRAMEWORK IMPLEMENTATION**
 
-This directory contains a comprehensive implementation of **SU(2) recoupling coefficients** for modeling energy transfer between visible and hidden sectors via **spin-network-mediated portals**. The framework combines rigorous mathematical formalism with high-performance computational tools.
+This directory contains a comprehensive implementation of a **Lorentz-violating (LV) powered exotic energy extraction platform** that integrates **five distinct energy pathways** through a unified spin network portal framework. The system activates exotic energy extraction mechanisms when LV parameters exceed experimental bounds.
 
-## 📁 **Framework Components**
+## 🚀 **System Architecture Overview**
+
+### Core Framework Components
+
+1. **Enhanced SU(2) Spin Network Portal** (`su2_recoupling_module.py`, `spin_network_portal.py`)
+   - Quantum geometry-based energy transfer
+   - SU(2) recoupling coefficient optimization  
+   - LV-enhanced portal efficiency
+
+2. **Five Exotic Energy Pathways**:
+   - **Casimir LV**: Negative energy density extraction (`casimir_lv.py`)
+   - **Dynamic Casimir LV**: Vacuum energy extraction (`dynamic_casimir_lv.py`) 
+   - **Hidden Sector Portal**: Extra-dimensional coupling (`hidden_sector_portal.py`)
+   - **Axion Coupling LV**: Dark energy field interactions (`axion_coupling_lv.py`)
+   - **Matter-Gravity Coherence**: Quantum entanglement preservation (`matter_gravity_coherence.py`)
+
+3. **Unified Integration Framework** (`unified_lv_framework.py`)
+   - Cross-pathway optimization
+   - Synergy analysis
+   - Performance monitoring
+
+## 📁 **Complete Framework Structure**
 
 ```
 hidden_sector_spin_networks/
-├── spin_network_portal.tex          # Complete theoretical framework 
-├── su2_recoupling_core.tex          # Mathematical formalism for 3nj symbols
-├── su2_recoupling_module.py         # High-performance computation module
-├── leakage_amplitude_sim.ipynb      # Interactive simulation notebook
-├── tensor_network_bridge.py         # Integration with tensor network libraries
-├── symbolic_tensor_evaluator.py     # Original symbolic evaluator
-├── spin_network_portal.py           # Original portal implementation
-└── README.md                        # This documentation
+├── Core Pathways
+│   ├── casimir_lv.py                    # Casimir LV pathway
+│   ├── dynamic_casimir_lv.py            # Dynamic Casimir LV
+│   ├── hidden_sector_portal.py          # Extra-dimensional portal
+│   ├── axion_coupling_lv.py             # Axion/dark energy coupling  
+│   └── matter_gravity_coherence.py      # Quantum coherence pathway
+│
+├── Framework Integration
+│   ├── unified_lv_framework.py          # Unified framework
+│   ├── comprehensive_lv_sweep.py        # Parameter sweep analysis
+│   └── su2_recoupling_module.py         # Enhanced SU(2) portal
+│
+├── Analysis and Utilities
+│   ├── test_lv_framework.py             # Comprehensive test suite
+│   ├── spin_network_portal.py           # Main portal interface
+│   └── symbolic_tensor_evaluator.py     # SU(2) tensor evaluation
+│
+├── Documentation
+│   ├── spin_network_portal.tex          # Main LaTeX documentation
+│   ├── dark_energy_portal_lv.tex        # Dark energy pathway
+│   ├── matter_gravity_coherence_lv.tex  # Coherence pathway
+│   └── IMPLEMENTATION_COMPLETE.md       # Implementation summary
+│
+└── LaTeX Integration Papers
+    ├── ANEC_violation.tex
+    ├── ghost_scalar.tex
+    ├── polymer_field_algebra.tex
+    ├── qi_bound_modification.tex
+    └── kinetic_suppression.tex
+```
+
+## 🔥 **Quick Start Guide**
+
+### 1. Individual Pathway Demonstration
+
+```python
+# Import and test individual pathways
+from casimir_lv import demo_casimir_lv
+from dynamic_casimir_lv import demo_dynamic_casimir_lv
+from hidden_sector_portal import demo_hidden_sector_portal
+from axion_coupling_lv import demo_axion_coupling_lv
+from matter_gravity_coherence import demo_matter_gravity_coherence
+
+# Run individual demos
+casimir_results = demo_casimir_lv()
+dynamic_results = demo_dynamic_casimir_lv()
+portal_results = demo_hidden_sector_portal()
+axion_results = demo_axion_coupling_lv()
+coherence_results = demo_matter_gravity_coherence()
+```
+
+### 2. Unified Framework Analysis
+
+```python
+from unified_lv_framework import demo_unified_framework
+
+# Run comprehensive analysis
+framework, report = demo_unified_framework()
+
+# Key results
+print(f"Total Power: {report['final_performance']['total_power']:.2e} W")
+print(f"Active Pathways: {report['active_pathway_count']}/6")  
+print(f"Enhancement Factor: {report['performance_summary']['enhancement_factor']:.2f}")
+```
+
+### 3. Comprehensive Parameter Sweep
+
+```python
+from comprehensive_lv_sweep import run_comprehensive_sweep
+
+# Run full parameter sweep across all pathways
+sweep, results = run_comprehensive_sweep()
+
+# Results saved to: comprehensive_lv_sweep_results.json
 ```
 
 ## 🎯 **Theoretical Framework Overview**

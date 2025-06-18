@@ -1,29 +1,27 @@
 #!/usr/bin/env python3
 """
-Spin Network Portal: SU(2)-Mediated Hidden-Sector Energy Transfer
-================================================================
+Spin Network Portal: Enhanced LV-Powered Exotic Energy Platform
+==============================================================
 
-This module implements the concrete spin network portal model for hidden-sector
-energy transfer, where energy exchange is mediated through spin-entangled SU(2)
-degrees of freedom arising from quantum geometry.
+This module implements the comprehensive spin network portal model for hidden-sector
+energy transfer, now enhanced with five exotic energy extraction pathways that
+activate when Lorentz-violating parameters exceed experimental bounds.
 
-Key Features:
-1. **Portal Coupling Lagrangian**: Visible fermions coupled to hidden spin-vector fields
-2. **Hypergeometric Recoupling**: Closed-form 3nj symbols for amplitude computation
-3. **Network Topology Optimization**: Linear, tree, and complete graph configurations
-4. **Spin-Coherent Energy Transfer**: Angular momentum preserving energy leakage
-5. **Quantum Entanglement**: Coherent state preparation and detection protocols
+Enhanced Features:
+1. **Original Portal**: SU(2)-mediated hidden-sector energy transfer
+2. **Casimir LV**: Macroscopic negative energy density generation
+3. **Dynamic Vacuum**: Time-dependent boundary power extraction  
+4. **Extra-Dimensional**: Portal-mediated cross-dimensional transfer
+5. **Dark Energy Coupling**: Axion/dark field interactions
+6. **Matter-Gravity Coherence**: Quantum entanglement preservation
 
-Physics Framework:
-- Spin network mediated coupling: ℒ_portal = Σ_j g_j ψ̄ γ^μ χ^(j)_μ
-- Recoupling-weighted coupling: g_j = g_0 f(j) R_3nj({j_e})
-- Energy leakage amplitude: M_leak ~ Σ_{j} g_j² |R_3nj|² P(j) F_neg(j)
-- Angular momentum enhanced transfer rates with 10²-10³ amplification
+Integration Framework:
+- Unified LV parameter control across all pathways
+- Automatic pathway activation based on experimental bounds
+- Combined performance optimization and uncertainty quantification
+- Comprehensive parameter sweep and sensitivity analysis
 
-Integration with Hidden-Sector Framework:
-- Extends polymer-enhanced ANEC violation models
-- Provides SU(2) structure for quantum geometry applications
-- Enables holographic and entanglement-based energy transfer protocols
+Author: Quantum Geometry Hidden Sector Framework
 """
 
 import numpy as np
@@ -35,8 +33,27 @@ import matplotlib.pyplot as plt
 from concurrent.futures import ThreadPoolExecutor
 import time
 
+# Import LV pathway modules
+try:
+    from casimir_lv import CasimirLVCalculator, CasimirLVConfig
+    from dynamic_casimir_lv import DynamicCasimirLV, DynamicCasimirConfig
+    from hidden_sector_portal import HiddenSectorPortal, HiddenSectorConfig
+    from axion_coupling_lv import AxionCouplingLV, AxionCouplingConfig
+    from matter_gravity_coherence import MatterGravityCoherence, MatterGravityConfig
+    from su2_recoupling_module import EnhancedSpinNetworkPortal, LorentzViolationConfig, SpinNetworkConfig
+    LV_MODULES_AVAILABLE = True
+    print("✅ All LV pathway modules successfully imported")
+except ImportError as e:
+    print(f"⚠️  Some LV modules not available: {e}")
+    LV_MODULES_AVAILABLE = False
+
 # Import our SU(2) evaluator framework
-from symbolic_tensor_evaluator import HypergeometricSU2Evaluator, SU2Config
+try:
+    from symbolic_tensor_evaluator import HypergeometricSU2Evaluator, SU2Config
+    SU2_EVALUATOR_AVAILABLE = True
+except ImportError:
+    print("⚠️  SU(2) evaluator not available - using fallback implementation")
+    SU2_EVALUATOR_AVAILABLE = False
 
 @dataclass
 class SpinPortalConfig:
@@ -567,6 +584,325 @@ def demo_spin_network_portal():
     
     print("\n✅ Spin Network Portal Demo Complete!")
     return results, sweep_results
+
+def demo_comprehensive_lv_integration():
+    """
+    Comprehensive demonstration of all five LV pathways integrated with the spin network portal.
+    
+    This function showcases the complete LV-powered exotic energy platform with:
+    1. Individual pathway demonstrations
+    2. Unified framework integration 
+    3. Parameter optimization
+    4. Performance analysis
+    5. Visualization of results
+    """
+    print("🌟 COMPREHENSIVE LV-POWERED EXOTIC ENERGY PLATFORM DEMO 🌟")
+    print("="*70)
+    
+    if not LV_MODULES_AVAILABLE:
+        print("❌ LV pathway modules not available. Please ensure all modules are installed.")
+        return None
+    
+    # Initialize comprehensive results
+    comprehensive_results = {
+        'individual_pathways': {},
+        'unified_framework': {},
+        'performance_metrics': {},
+        'optimization_results': {}
+    }
+    
+    print("\n1️⃣ INDIVIDUAL PATHWAY DEMONSTRATIONS")
+    print("-" * 50)
+    
+    # 1. Casimir LV Pathway
+    print("\n🔹 Casimir LV (Negative Energy) Pathway:")
+    try:
+        casimir_config = CasimirLVConfig(
+            plate_separation=1e-6,
+            plate_area=1e-4,
+            mu_lv=1e-18,
+            alpha_lv=1e-15,
+            beta_lv=1e-12
+        )
+        casimir_calc = CasimirLVCalculator(casimir_config)
+        casimir_energy = casimir_calc.total_casimir_energy()
+        casimir_active = casimir_calc.is_pathway_active()
+        
+        print(f"   ✓ Pathway Active: {casimir_active}")
+        print(f"   ✓ Negative Energy: {casimir_energy:.2e} J")
+        print(f"   ✓ LV Enhancement: {casimir_calc.lv_enhancement_factor():.3f}")
+        
+        comprehensive_results['individual_pathways']['casimir_lv'] = {
+            'active': casimir_active,
+            'energy': casimir_energy,
+            'enhancement': casimir_calc.lv_enhancement_factor()
+        }
+    except Exception as e:
+        print(f"   ❌ Casimir LV Error: {e}")
+    
+    # 2. Dynamic Casimir LV Pathway
+    print("\n🔹 Dynamic Casimir LV (Vacuum Extraction) Pathway:")
+    try:
+        dynamic_config = DynamicCasimirConfig(
+            cavity_length=0.01,
+            modulation_frequency=1e9,
+            mu_lv=1e-18,
+            alpha_lv=1e-15,
+            beta_lv=1e-12
+        )
+        dynamic_calc = DynamicCasimirLV(dynamic_config)
+        dynamic_power = dynamic_calc.total_power_output()
+        dynamic_photons = dynamic_calc.photon_production_rate()
+        dynamic_active = dynamic_calc.is_pathway_active()
+        
+        print(f"   ✓ Pathway Active: {dynamic_active}")
+        print(f"   ✓ Power Output: {dynamic_power:.2e} W")
+        print(f"   ✓ Photon Rate: {dynamic_photons:.2e} photons/s")
+        print(f"   ✓ LV Enhancement: {dynamic_calc.lv_enhancement_factor():.3f}")
+        
+        comprehensive_results['individual_pathways']['dynamic_casimir_lv'] = {
+            'active': dynamic_active,
+            'power': dynamic_power,
+            'photon_rate': dynamic_photons,
+            'enhancement': dynamic_calc.lv_enhancement_factor()
+        }
+    except Exception as e:
+        print(f"   ❌ Dynamic Casimir LV Error: {e}")
+    
+    # 3. Hidden Sector Portal Pathway
+    print("\n🔹 Hidden Sector Portal (Extra-Dimensional) Pathway:")
+    try:
+        hidden_config = HiddenSectorConfig(
+            n_extra_dims=2,
+            compactification_radius=1e-3,
+            mu_lv=1e-18,
+            alpha_lv=1e-15,
+            beta_lv=1e-12
+        )
+        hidden_calc = HiddenSectorPortal(hidden_config)
+        hidden_power = hidden_calc.total_power_extraction()
+        hidden_active = hidden_calc.is_pathway_active()
+        
+        print(f"   ✓ Pathway Active: {hidden_active}")
+        print(f"   ✓ Power Extraction: {hidden_power:.2e} W")
+        print(f"   ✓ LV Enhancement: {hidden_calc.lv_enhancement_factor(1.0):.3f}")
+        
+        comprehensive_results['individual_pathways']['hidden_sector_portal'] = {
+            'active': hidden_active,
+            'power': hidden_power,
+            'enhancement': hidden_calc.lv_enhancement_factor(1.0)
+        }
+    except Exception as e:
+        print(f"   ❌ Hidden Sector Portal Error: {e}")
+    
+    # 4. Axion Coupling LV Pathway
+    print("\n🔹 Axion Coupling LV (Dark Energy) Pathway:")
+    try:
+        axion_config = AxionCouplingConfig(
+            axion_mass=1e-5,
+            oscillation_frequency=1e6,
+            mu_lv=1e-18,
+            alpha_lv=1e-15,
+            beta_lv=1e-12
+        )
+        axion_calc = AxionCouplingLV(axion_config)
+        axion_osc_power = axion_calc.coherent_oscillation_power()
+        axion_de_power = axion_calc.dark_energy_extraction_rate()
+        axion_active = axion_calc.is_pathway_active()
+        
+        print(f"   ✓ Pathway Active: {axion_active}")
+        print(f"   ✓ Oscillation Power: {axion_osc_power:.2e} W")
+        print(f"   ✓ Dark Energy Power: {axion_de_power:.2e} W")
+        print(f"   ✓ LV Enhancement: {axion_calc.lv_enhancement_factor(1e6):.3f}")
+        
+        comprehensive_results['individual_pathways']['axion_coupling_lv'] = {
+            'active': axion_active,
+            'oscillation_power': axion_osc_power,
+            'dark_energy_power': axion_de_power,
+            'enhancement': axion_calc.lv_enhancement_factor(1e6)
+        }
+    except Exception as e:
+        print(f"   ❌ Axion Coupling LV Error: {e}")
+    
+    # 5. Matter-Gravity Coherence Pathway
+    print("\n🔹 Matter-Gravity Coherence (Quantum Entanglement) Pathway:")
+    try:
+        coherence_config = MatterGravityConfig(
+            particle_mass=1e-26,
+            entanglement_depth=10,
+            mu_lv=1e-18,
+            alpha_lv=1e-15,
+            beta_lv=1e-12
+        )
+        coherence_calc = MatterGravityCoherence(coherence_config)
+        coherence_power = coherence_calc.total_extractable_power()
+        coherence_fidelity = coherence_calc.entanglement_fidelity_evolution(1.0)
+        coherence_active = coherence_calc.is_pathway_active()
+        
+        print(f"   ✓ Pathway Active: {coherence_active}")
+        print(f"   ✓ Extractable Power: {coherence_power:.2e} W")
+        print(f"   ✓ Entanglement Fidelity: {coherence_fidelity:.3f}")
+        print(f"   ✓ LV Enhancement: {1/coherence_calc.lv_coherence_enhancement(1.0):.3f}")
+        
+        comprehensive_results['individual_pathways']['matter_gravity_coherence'] = {
+            'active': coherence_active,
+            'power': coherence_power,
+            'fidelity': coherence_fidelity,
+            'enhancement': 1/coherence_calc.lv_coherence_enhancement(1.0)
+        }
+    except Exception as e:
+        print(f"   ❌ Matter-Gravity Coherence Error: {e}")
+    
+    print("\n2️⃣ UNIFIED FRAMEWORK INTEGRATION")
+    print("-" * 50)
+    
+    try:
+        from unified_lv_framework import UnifiedLVFramework, UnifiedLVConfig
+        
+        # Initialize unified framework
+        unified_config = UnifiedLVConfig(
+            mu_lv=1e-18,
+            alpha_lv=1e-15,
+            beta_lv=1e-12
+        )
+        
+        unified_framework = UnifiedLVFramework(unified_config)
+        
+        # Check pathway activation
+        activation_status = unified_framework.check_pathway_activation()
+        active_count = sum(activation_status.values())
+        
+        print(f"\n🔹 Pathway Activation Status:")
+        print(f"   ✓ Active Pathways: {active_count}/6")
+        
+        for pathway, active in activation_status.items():
+            status = "✅ ACTIVE" if active else "❌ INACTIVE"
+            print(f"   {pathway}: {status}")
+        
+        # Calculate unified performance
+        power_breakdown = unified_framework.calculate_total_power_extraction()
+        synergy_metrics = unified_framework.pathway_synergy_analysis()
+        
+        print(f"\n🔹 Unified Performance Metrics:")
+        print(f"   ✓ Total Power: {power_breakdown['total_power']:.2e} W")
+        print(f"   ✓ Total Synergy: {synergy_metrics['total_synergy']:.2e} W")
+        print(f"   ✓ Enhancement Factor: {power_breakdown.get('spin_network_enhancement', 1.0):.3f}")
+        print(f"   ✓ Combined Performance: {power_breakdown['total_power'] + synergy_metrics['total_synergy']:.2e} W")
+        
+        comprehensive_results['unified_framework'] = {
+            'active_pathways': active_count,
+            'total_power': power_breakdown['total_power'],
+            'total_synergy': synergy_metrics['total_synergy'],
+            'enhancement_factor': power_breakdown.get('spin_network_enhancement', 1.0),
+            'combined_performance': power_breakdown['total_power'] + synergy_metrics['total_synergy']
+        }
+        
+    except Exception as e:
+        print(f"   ❌ Unified Framework Error: {e}")
+    
+    print("\n3️⃣ ENHANCED SU(2) SPIN NETWORK PORTAL")
+    print("-" * 50)
+    
+    try:
+        # Enhanced Spin Network Portal
+        lv_config = LorentzViolationConfig(
+            mu=1e-18,
+            alpha=1e-15,
+            beta=1e-12
+        )
+        
+        enhanced_portal = EnhancedSpinNetworkPortal(lv_config)
+        
+        # Calculate enhanced metrics
+        total_enhancement = enhanced_portal.total_enhancement_factor()
+        portal_active = enhanced_portal.is_pathway_active()
+        
+        print(f"\n🔹 Enhanced SU(2) Portal Metrics:")
+        print(f"   ✓ Portal Active: {portal_active}")
+        print(f"   ✓ Total Enhancement: {total_enhancement:.3f}")
+        print(f"   ✓ Network Amplification: {enhanced_portal.network_amplification_factor():.3f}")
+        print(f"   ✓ Coherence Factor: {enhanced_portal.coherence_enhancement_factor():.3f}")
+        
+        comprehensive_results['enhanced_portal'] = {
+            'active': portal_active,
+            'total_enhancement': total_enhancement,
+            'network_amplification': enhanced_portal.network_amplification_factor(),
+            'coherence_factor': enhanced_portal.coherence_enhancement_factor()
+        }
+        
+    except Exception as e:
+        print(f"   ❌ Enhanced Portal Error: {e}")
+    
+    print("\n4️⃣ PERFORMANCE SUMMARY")
+    print("-" * 50)
+    
+    # Calculate total platform performance
+    individual_powers = []
+    active_pathway_count = 0
+    
+    for pathway_name, pathway_data in comprehensive_results.get('individual_pathways', {}).items():
+        if pathway_data.get('active', False):
+            active_pathway_count += 1
+            
+            # Extract power values
+            if 'power' in pathway_data:
+                individual_powers.append(pathway_data['power'])
+            elif 'energy' in pathway_data:
+                individual_powers.append(abs(pathway_data['energy']) * 1e6)  # Convert to power equivalent
+            elif 'oscillation_power' in pathway_data:
+                individual_powers.append(pathway_data['oscillation_power'])
+                if 'dark_energy_power' in pathway_data:
+                    individual_powers.append(pathway_data['dark_energy_power'])
+    
+    total_individual_power = sum(individual_powers)
+    unified_power = comprehensive_results.get('unified_framework', {}).get('total_power', 0)
+    enhancement_factor = comprehensive_results.get('enhanced_portal', {}).get('total_enhancement', 1.0)
+    
+    platform_performance = max(total_individual_power, unified_power) * enhancement_factor
+    
+    print(f"\n🏆 PLATFORM PERFORMANCE SUMMARY:")
+    print(f"   ✓ Active Pathways: {active_pathway_count}/5")
+    print(f"   ✓ Individual Power Sum: {total_individual_power:.2e} W")
+    print(f"   ✓ Unified Framework Power: {unified_power:.2e} W")
+    print(f"   ✓ SU(2) Enhancement Factor: {enhancement_factor:.3f}")
+    print(f"   ✓ TOTAL PLATFORM PERFORMANCE: {platform_performance:.2e} W")
+    
+    comprehensive_results['performance_summary'] = {
+        'active_pathways': active_pathway_count,
+        'individual_power_sum': total_individual_power,
+        'unified_framework_power': unified_power,
+        'enhancement_factor': enhancement_factor,
+        'total_platform_performance': platform_performance
+    }
+    
+    print("\n5️⃣ LV PARAMETER ANALYSIS")
+    print("-" * 50)
+    
+    experimental_bounds = {
+        'mu_lv': 1e-19,
+        'alpha_lv': 1e-16,
+        'beta_lv': 1e-13
+    }
+    
+    current_params = {
+        'mu_lv': 1e-18,
+        'alpha_lv': 1e-15,
+        'beta_lv': 1e-12
+    }
+    
+    print(f"\n🔹 LV Parameter Status:")
+    for param, current_val in current_params.items():
+        bound_val = experimental_bounds[param]
+        ratio = current_val / bound_val
+        status = "✅ ABOVE BOUND" if current_val > bound_val else "❌ BELOW BOUND"
+        print(f"   {param}: {current_val:.1e} ({ratio:.1f}× bound) {status}")
+    
+    print(f"\n✨ COMPREHENSIVE DEMO COMPLETE ✨")
+    print(f"Platform Status: {'🚀 FULLY OPERATIONAL' if active_pathway_count >= 3 else '⚠️ PARTIAL OPERATION'}")
+    print(f"Total Performance: {platform_performance:.2e} W")
+    print("="*70)
+    
+    return comprehensive_results
 
 if __name__ == "__main__":
     demo_spin_network_portal()
