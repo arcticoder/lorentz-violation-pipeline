@@ -8,7 +8,7 @@ using the validated matter-gravity coherence pathway.
 """
 
 import numpy as np
-from matter_gravity_coherence import MatterGravityCoherence, MatterGravityConfig
+from .matter_gravity_coherence import MatterGravityCoherence, MatterGravityConfig
 
 def demo_simple_energy_converter():
     """Simple demonstration focusing on the working pathway."""
