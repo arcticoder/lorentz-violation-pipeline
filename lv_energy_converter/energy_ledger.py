@@ -49,6 +49,27 @@ class EnergyType(Enum):
     OUTPUT_USEFUL = "output_useful"                # Net useful energy output
     FEEDBACK_RECYCLE = "feedback_recycle"          # Energy recycled to inputs
     
+    # Matter-to-Energy Conversion Types
+    INPUT_MATTER_CONVERSION = "input_matter_conversion"  # Energy from matter annihilation
+    LOSSES_SAFETY = "losses_safety"                      # Safety system energy costs
+    
+    # Energy Storage and Routing Types  
+    ENERGY_STORAGE = "energy_storage"                    # Energy stored in cavities
+    ENERGY_EXTRACTION = "energy_extraction"             # Energy extracted from storage
+    ENERGY_ROUTING = "energy_routing"                    # Energy routed through waveguides
+    BEAM_SHAPING = "beam_shaping"                        # Energy shaped into beams
+    LOSSES_STORAGE = "losses_storage"                    # Storage efficiency losses
+    LOSSES_ROUTING = "losses_routing"                    # Waveguide transmission losses
+    LOSSES_BEAM_SHAPING = "losses_beam_shaping"          # Beam shaping losses
+    
+    # Pair Production and Matter Synthesis Types
+    PAIR_PRODUCTION = "pair_production"                  # Energy for particle creation
+    MATTER_ASSEMBLY = "matter_assembly"                  # Energy for matter patterning
+    STIMULATED_CREATION = "stimulated_creation"          # Stimulated pair production
+    LOSSES_PAIR_EFFICIENCY = "losses_pair_efficiency"    # Pair production losses
+    LOSSES_ASSEMBLY = "losses_assembly"                  # Matter assembly losses
+    OUTPUT_MATTER_SYNTHESIS = "output_matter_synthesis"  # Energy invested in new matter
+    
     # Multi-pathway energy types
     LV_OPERATOR_HIGHER_DIM = "lv_operator_higher_dim"  # Higher-dimension LV operator effects
     DYNAMIC_VACUUM_CASIMIR = "dynamic_vacuum_casimir"  # Dynamical Casimir effect extraction
