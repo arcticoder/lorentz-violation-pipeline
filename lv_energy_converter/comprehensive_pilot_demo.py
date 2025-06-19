@@ -452,7 +452,7 @@ def run_comprehensive_pilot_demo():
     
     # Save comprehensive report
     report_filename = f"comprehensive_pilot_assessment_{timestamp}.json"
-    with open(report_filename, 'w') as f:
+    with open(report_filename, 'w', encoding='utf-8') as f:
         json.dump(comprehensive_report, f, indent=2, default=str)
     
     # Create executive summary document
@@ -506,7 +506,7 @@ The comprehensive assessment demonstrates that the rhodium replicator technology
 """
     
     summary_filename = f"executive_summary_{timestamp}.md"
-    with open(summary_filename, 'w') as f:
+    with open(summary_filename, 'w', encoding='utf-8') as f:
         f.write(executive_summary)
     
     print(f"✅ Reports generated:")
