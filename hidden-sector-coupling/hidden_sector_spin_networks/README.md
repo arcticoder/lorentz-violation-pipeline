@@ -1,10 +1,10 @@
 # LV-Powered Exotic Energy Platform: Complete Framework Documentation
 
-## ✅ **COMPLETE LV FRAMEWORK IMPLEMENTATION**
+## **COMPLETE LV FRAMEWORK IMPLEMENTATION**
 
 This directory contains a comprehensive implementation of a **Lorentz-violating (LV) powered exotic energy extraction platform** that integrates **five distinct energy pathways** through a unified spin network portal framework. The system activates exotic energy extraction mechanisms when LV parameters exceed experimental bounds.
 
-## 🚀 **System Architecture Overview**
+## **System Architecture Overview**
 
 ### Core Framework Components
 
@@ -105,7 +105,7 @@ sweep, results = run_comprehensive_sweep()
 # Results saved to: comprehensive_lv_sweep_results.json
 ```
 
-## 🎯 **Theoretical Framework Overview**
+## **Theoretical Framework Overview**
 
 ### Core Concept
 Model energy transfer between sectors via **quantum spin networks** that serve as bridges, mediated by SU(2) recoupling coefficients (Wigner 3nj symbols).
@@ -120,7 +120,7 @@ Model energy transfer between sectors via **quantum spin networks** that serve a
 𝒜_leakage = ∑_paths ∏_vertices √(2j_i + 1) (j₁ j₂ j₃; m₁ m₂ m₃) × exp(-∑_edges ℓ_ij²/2σ_portal²)
 ```
 
-## 🚀 **Key Features**
+## **Key Features**
 
 ### 1. Mathematical Infrastructure
 - **Wigner 3j & 6j symbols**: Optimized hypergeometric computation
@@ -140,7 +140,7 @@ Model energy transfer between sectors via **quantum spin networks** that serve a
 - **Experimental protocols**: Precision calorimetry, spin entanglement tomography
 - **Scaling laws**: Power-law dependencies on coupling strength and network size
 
-## 🔧 **Usage Examples**
+## **Usage Examples**
 
 ### Basic SU(2) Recoupling
 ```python
@@ -214,7 +214,7 @@ The `leakage_amplitude_sim.ipynb` notebook provides:
 3. **Temporal correlation analysis**: Search for recoupling timescales
 4. **Magnetic field response**: Study portal B-field sensitivity
 
-## 🔧 **Integration Decision Matrix**
+## **Integration Decision Matrix**
 
 | **Hidden-Sector Feature** | **SU(2) Relevance** | **Integration Priority** |
 |---------------------------|---------------------|-------------------------|
