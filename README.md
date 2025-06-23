@@ -247,23 +247,10 @@ Results are compared to theoretical scales (Planck scale ≈ 1.22×10¹⁰ GeV).
 
 ## License
 
-MIT License - see LICENSE file for details.
+The Unlicense - see LICENSE file for details.
 
 ## Contributing
 
 We welcome contributions! Please see CONTRIBUTING.md for guidelines.
-
-## Citation
-
-If you use this code in your research, please cite:
-
-```bibtex
-@software{lorentz_violation_pipeline,
-  title={Lorentz-Violation Pipeline: Advanced Framework for Planck-Scale Physics},
-  author={Arctic Coder},
-  year={2025},
-  url={https://github.com/arcticoder/lorentz-violation-pipeline}
-}
-```
 
 ```
