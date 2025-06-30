@@ -111,12 +111,12 @@ sweep, results = run_comprehensive_sweep()
 Model energy transfer between sectors via **quantum spin networks** that serve as bridges, mediated by SU(2) recoupling coefficients (Wigner 3nj symbols).
 
 ### Portal Lagrangian
-```latex
+```math
 ℒ_portal = ℒ_vis + ℒ_hidden + ∑_n g_n^eff Φ_vis^(n) ⊗ Φ_hidden^(n) · W_{j₁j₂j₃}^{m₁m₂m₃}
 ```
 
 ### Energy Leakage Amplitude
-```latex
+```math
 𝒜_leakage = ∑_paths ∏_vertices √(2j_i + 1) (j₁ j₂ j₃; m₁ m₂ m₃) × exp(-∑_edges ℓ_ij²/2σ_portal²)
 ```
 
