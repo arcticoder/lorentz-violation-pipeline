@@ -1,5 +1,14 @@
 # Lorentz-Violation Pipeline
 
+## Related Repositories
+
+- [energy](https://github.com/arcticoder/energy): Central meta-repo for all energy, quantum, and Lorentz violation research. This pipeline is integrated for comprehensive Lorentz violation analysis.
+- [lqg-ftl-metric-engineering](https://github.com/arcticoder/lqg-ftl-metric-engineering): Shares theoretical foundations for FTL metric engineering and spacetime modifications.
+- [warp-bubble-qft](https://github.com/arcticoder/warp-bubble-qft): Related for quantum field theory in curved spacetime and Lorentz violation effects.
+- [unified-lqg](https://github.com/arcticoder/unified-lqg): Provides LQG framework for understanding Lorentz violation in discrete spacetime.
+
+All repositories are part of the [arcticoder](https://github.com/arcticoder) ecosystem and link back to the energy framework for unified documentation and integration.
+
 Framework for probing Planck-scale physics through Lorentz invariance violation (LIV) analysis and experimental energy conversion technologies.
 
 ## Overview
