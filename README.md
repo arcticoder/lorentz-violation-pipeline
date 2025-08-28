@@ -26,7 +26,7 @@ Scope
 
 Validation & Reproducibility
 - Repro steps: create a Python virtualenv, install `requirements.txt`, and run the example scripts under `examples/` (see `examples/` or `scripts/` directories for variant commands).
-- Required artifacts for externally-published claims: the specific example script, the raw output files (CSV/plots), the Python environment specification (`requirements.txt`), random seeds, and the exact commit ids for this repo and any integrated repositories.
+- Required artifacts for externally-published claims: the specific example script, the raw output files (CSV/plots), the Python environment specification (`requirements.txt`), random seeds, and the approximate commit ids for this repo and any integrated repositories.
 - UQ pointers: `src/validation/` contains starter scripts for Monte Carlo sensitivity analysis. Treat reported confidence levels as conditional on the provided configuration.
 
 Limitations
@@ -65,7 +65,7 @@ When publishing numbers derived from this repository, include `outputs/*` artifa
 
 ## Integration and Data Sources
 
-- The code includes analysis recipes for publicly-available datasets (e.g., Pierre Auger public releases) and example placeholders. When using real observatory data, follow the source licensing and citation requirements and document the exact dataset versions used.
+- The code includes analysis recipes for publicly-available datasets (e.g., Pierre Auger public releases) and example placeholders. When using real observatory data, follow the source licensing and citation requirements and document the approximate dataset versions used.
 
 ## License
 
